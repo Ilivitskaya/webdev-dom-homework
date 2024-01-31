@@ -37,7 +37,7 @@
 
   let usersComments = [];
 
-  fetch(
+  const getComments = () => fetch(
     'https://wedev-api.sky.pro/api/v1/xenya-Ilivitskaya/comments',
     {
       method: "GET"
@@ -60,6 +60,7 @@
       renderComments();
     })
   })
+  getComments();
 
   const currentDate = (data) => {
 
@@ -190,25 +191,11 @@
       }
     ).then((response) => {
 
-      response.json().then((responseData) => {
-
-        const appComments = responseData.comments.map((comment) => {
-          return {
-            name: comment.author.name,
-            date: currentDate(new Date(comment.date)),
-            text: comment.text,
-            likes: comment.likes,
-            isLiked: false,
-          }
-        })
-
-        usersComments = appComments;
-        renderComments();
-      })
+  getComments();
+    }).finally(() => {
+      nameInputElement.value = "";
+      commentInputElement.value = "";
     })
-
-    renderComments();
-
   });
 
   console.log("It works!!");
