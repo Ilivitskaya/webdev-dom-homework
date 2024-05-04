@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
   <div class="container">
 
     <p id="loader">Комментарии загружаются, подождите</p>
@@ -15,7 +16,7 @@
     <ul id="list" class="comments">
       <!-- Список рендерится из JS -->
     </ul>
-    <div class="add-form">
+    <div id="form-block" class="add-form">
       <input id="name-input" type="text" class="add-form-name" placeholder="Введите ваше имя" />
       <textarea id="comment-input" type="textarea" class="add-form-text" placeholder="Введите ваш коментарий"
         rows="4"></textarea>
@@ -53,7 +54,7 @@
         renderComments();
         loaderText.hidden = true;
       })
-      
+
   };
 
 
@@ -128,7 +129,7 @@
     initLikesCounter();
     addReplyToComment();
   }
-  
+
   fetchAndRenderComments();
   renderComments();
 
@@ -157,7 +158,6 @@
       return;
     };
 
-    const startAt = Date.now();
     console.log("Начинаем делать запрос");
 
     buttonElement.disabled = true;
@@ -168,28 +168,55 @@
       body: JSON.stringify({
         name: nameInputElement.value.replaceAll("<", "&lt").replaceAll(">", "&gt"),
         text: commentInputElement.value.replaceAll("<", "&lt").replaceAll(">", "&gt"),
+        forceError: true,
       })
 
     }).then((response) => {
-      console.log("Время :" + (Date.now() - startAt));
-      return response;
+      if (response.status === 500) {
+        throw new Error("сервер сломался");
+      }
 
-    }).then((response) => {
+      if (response.status === 400) {
+        throw new Error("недостаточно символов");
+      }
+
+
       return response.json();
 
-    }).then((response) => {
-      console.log("Время :" + (Date.now() - startAt));
-      return response;
 
-    }).then(() => {
-      return fetchAndRenderComments();
+    })
+      .then(() => {
+        return fetchAndRenderComments();
 
-    }).then((response) => {
-      buttonElement.disabled = false;
-      buttonElement.textContent = "Добавить";
-    });
+
+      }).then((response) => {
+        buttonElement.disabled = false;
+        buttonElement.textContent = "Добавить";
+        commentInputElement.value = "";
+
+
+      }).catch((error) => {
+        if (error.message === "сервер сломался") {
+          alert("сервер сломался, попробуй позже");
+          buttonElement.disabled = false;
+          buttonElement.textContent = "Добавить";
+          return;
+        }
+
+        if (error.message === "недостаточно символов") {
+          alert("имя и комментарий должны быть не короче 3х символов");
+          buttonElement.disabled = false;
+          buttonElement.textContent = "Добавить";
+          return;
+        }
+
+        console.log(error);
+
+
+      });
 
     renderComments();
+
   });
 
   console.log("It works!!");
