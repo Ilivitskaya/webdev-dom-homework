@@ -65,7 +65,36 @@
 
   <script>
     "use strict";
-    // Код писать здесь
-    console.log("It works!");
+    const commentsList = document.querySelector(".comments");
+    const addButton = document.querySelector(".add-form-button");
+    const inputName = document.querySelector(".add-form-name");
+    const inputComment = document.querySelector(".add-form-text");
+
+    addButton.addEventListener("click", () => {
+
+      const commentElement = document.createElement("li");
+      
+      commentElement.innerHTML = `<li class="comment">
+          <div class="comment-header">
+            <div>${inputName.value}</div>
+            <div>13.02.22 19:22</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${inputComment.value}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">75</span>
+              <button class="like-button -active-like"></button>
+            </div>
+          </div>
+        </li>`;
+
+      commentsList.appendChild(commentElement);
+
+
+    })
   </script>
 </html>
