@@ -72,6 +72,15 @@
 
     addButton.addEventListener("click", () => {
 
+      inputName.classList.remove("error");
+      inputComment.classList.remove("error");
+
+      if (inputName.value === "") {
+        inputName.classList.add("error");
+        inputComment.classList.add("error");
+        return;
+      }
+
       const commentElement = document.createElement("li");
       
       commentElement.innerHTML = `<li class="comment">
@@ -94,6 +103,10 @@
 
       commentsList.appendChild(commentElement);
 
+      inputName.value = "";
+      inputComment.value = "";
+      
+      
 
     })
   </script>
