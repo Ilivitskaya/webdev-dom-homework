@@ -52,6 +52,8 @@
 
         const comment = comments[likeButton.dataset.index];
 
+        comment.isLiked ? -- comment.likes : ++ comment.likes;
+
         comment.isLiked = !comment.isLiked;
 
         renderComments()
