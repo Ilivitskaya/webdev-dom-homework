@@ -6,10 +6,10 @@ export const comments = [
     isLiked: false,
     likes: 23,
   },
-  
+
   {
     name: "Варвара Н.",
-    date: "13.02.22 19:22",
+    date: "13.02.22 19:23",
     text: "Мне нравится как оформлена эта страница! ❤",
     isLiked: true,
     likes: 783,
