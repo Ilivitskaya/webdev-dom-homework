@@ -1,1 +1,1 @@
-export const replaceValues = string => string.replaceAll("<", "&lt;")
+export const replaceValues = (string) => string.replaceAll('<', '&lt;')
