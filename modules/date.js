@@ -1,3 +1,5 @@
+import { comments } from './comments.js'
+
 const myDate = new Date()
 const months = [
     '01',
