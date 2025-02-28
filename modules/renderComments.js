@@ -4,6 +4,7 @@ import {
     initClickComment,
     initAddComment,
 } from './initListeners.js'
+import { dateFormatting } from './date.js'
 
 export const renderComments = () => {
     const commentsList = document.querySelector('.comments')
@@ -13,7 +14,7 @@ export const renderComments = () => {
             return `<li data-index="${index}"  class="comment">
         <div class="comment-header">
           <div>${comment.author.name}</div>
-          <div>${comment.date}</div>
+          <div>${dateFormatting(new Date(comment.date))}</div>
         </div>
         <div class="comment-body">
           <div class="comment-text">

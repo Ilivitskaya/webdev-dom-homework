@@ -1,6 +1,7 @@
 import { renderComments } from './renderComments.js'
-import { comments } from './comments.js'
-import { currentDate } from './date.js'
+import { postComment } from './api.js'
+import { comments, updateComments } from './comments.js'
+import { dateFormatting } from './date.js'
 import { replaceValues } from './replace.js'
 
 const inputComment = document.querySelector('.add-form-text')
@@ -43,7 +44,6 @@ export const initAddComment = () => {
 
     addButton.addEventListener('click', () => {
         inputName.classList.remove('error')
-
         inputComment.classList.remove('error')
 
         if (inputName.value === '') {
@@ -52,17 +52,14 @@ export const initAddComment = () => {
             return
         }
 
-        comments.push({
-            name: replaceValues(inputName.value),
-            date: currentDate,
-            text: replaceValues(inputComment.value),
-            isLiked: false,
-            likes: 0,
+        postComment(
+            replaceValues(inputName.value),
+            replaceValues(inputComment.value),
+        ).then((data) => {
+            updateComments(data.comments)
+            renderComments()
+            inputName.value = ''
+            inputComment.value = ''
         })
-
-        inputName.value = ''
-        inputComment.value = ''
-
-        renderComments()
     })
 }
