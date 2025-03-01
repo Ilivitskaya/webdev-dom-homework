@@ -1,7 +1,6 @@
 import { renderComments } from './renderComments.js'
 import { postComment } from './api.js'
 import { comments, updateComments } from './comments.js'
-import { dateFormatting } from './date.js'
 import { replaceValues } from './replace.js'
 
 const inputComment = document.querySelector('.add-form-text')
@@ -10,7 +9,7 @@ export const initClickLike = () => {
     const likeButtons = document.querySelectorAll('.like-button')
 
     for (const likeButton of likeButtons) {
-        likeButton.addEventListener('click', () => {
+        likeButton.addEventListener('click', (event) => {
             event.stopPropagation()
 
             const comment = comments[likeButton.dataset.index]
