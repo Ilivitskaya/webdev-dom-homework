@@ -1,9 +1,5 @@
 import { comments } from './comments.js'
-import {
-    initClickLike,
-    initClickComment,
-    initAddComment,
-} from './initListeners.js'
+import { initClickLike, initClickComment } from './initListeners.js'
 import { dateFormatting } from './date.js'
 
 export const renderComments = () => {
@@ -33,5 +29,5 @@ export const renderComments = () => {
 
     initClickLike()
     initClickComment()
-    initAddComment()
+    // initAddComment()
 }
