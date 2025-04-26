@@ -1,6 +1,6 @@
 import { renderComments } from './renderComments.js'
-import { postComment } from './api.js'
-import { comments, updateComments } from './comments.js'
+import { getComments, postComment } from './api.js'
+import { comments, loader, updateComments } from './comments.js'
 import { replaceValues } from './replace.js'
 
 const inputComment = document.querySelector('.add-form-text')
@@ -30,13 +30,14 @@ export const initClickComment = () => {
         commentCard.addEventListener('click', () => {
             const comment = comments[commentCard.dataset.index]
 
-            inputComment.value = `>>${comment.name}, "${comment.text}"\n`
+            inputComment.value = `>>${comment.author.name}, "${comment.text}"\n`
         })
     }
 }
 
 export const initAddComment = () => {
     const addButton = document.querySelector('.add-form-button')
+    const formElement = document.querySelector('.add-form')
 
     const inputName = document.querySelector('.add-form-name')
     const inputComment = document.querySelector('.add-form-text')
@@ -51,14 +52,25 @@ export const initAddComment = () => {
             return
         }
 
+        loader('show')
+
+        formElement.style.display = 'none'
+
         postComment(
             replaceValues(inputName.value),
             replaceValues(inputComment.value),
-        ).then((data) => {
-            updateComments(data.comments)
-            renderComments()
-            inputName.value = ''
-            inputComment.value = ''
-        })
+        )
+            .then(() => {
+                return getComments()
+            })
+            .then((data) => {
+                updateComments(data.comments)
+                inputName.value = ''
+                inputComment.value = ''
+                formElement.style.display = 'flex'
+                loader('hide')
+
+                renderComments()
+            })
     })
 }

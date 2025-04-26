@@ -13,7 +13,5 @@ export const postComment = (name, text) => {
             text: text,
             name: name,
         }),
-    }).then(() => {
-        return getComments()
     })
 }
